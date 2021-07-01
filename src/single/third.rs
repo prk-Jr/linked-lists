@@ -77,7 +77,7 @@ impl<T> Node<T> {
         }))
     }
 }
-
+#[cfg(test)]
 mod test {
     #[test]
     fn second() {

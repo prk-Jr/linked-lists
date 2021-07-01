@@ -1,7 +1,7 @@
 // in lib.rs
-pub mod first;
-pub mod second;
-pub mod third;
+#![allow(dead_code)]
+
+mod single;
 
 #[cfg(test)]
 mod tests {

@@ -1,51 +1,51 @@
+#[allow(dead_code)]
 #[allow(unused_imports)]
 use std::{mem, ptr::replace};
-pub struct List<T> {
-    head: Link<T>,
+pub struct List {
+    head: Link,
 }
 
-struct Node<T> {
-    elem: T,
-    next: Link<T>,
+struct Node {
+    elem: i32,
+    next: Link,
 }
 
-type Link<T> = Option<Box<Node<T>>>;
+enum Link {
+    Empty,
+    More(Box<Node>),
+}
 
-impl<T> List<T> {
+impl List {
     pub fn new() -> Self {
-        Self { head: None }
+        Self { head: Link::Empty }
     }
 
-    pub fn push(&mut self, elem: T) {
+    pub fn push(&mut self, elem: i32) {
         let new_node = Node {
             elem,
-            next: self.head.take(),
+            next: mem::replace(&mut self.head, Link::Empty),
         };
-        self.head = Some(Box::new(new_node));
+        self.head = Link::More(Box::new(new_node));
     }
 
-    pub fn pop(&mut self) -> Option<T> {
-        /*   match self.head.take() {
-            None => None,
-            Some(node) => {
+    pub fn pop(&mut self) -> Option<i32> {
+        match mem::replace(&mut self.head, Link::Empty) {
+            Link::Empty => None,
+            Link::More(node) => {
                 let x = node.as_ref().elem;
                 self.head = node.next;
                 // node.drop();
                 Some(x)
             }
-        } */
-
-        self.head.take().map(|x| {
-            self.head = x.next;
-            x.elem
-        })
+        }
     }
 }
-
+#[cfg(test)]
 mod test {
     #[test]
-    fn second() {
-        println!("Second.rs");
+    #[allow(dead_code)]
+
+    fn first() {
         use super::List;
         let mut list = List::new();
         assert_eq!(list.pop(), None);
