@@ -1,6 +1,7 @@
 // in lib.rs
 #![allow(dead_code)]
 
+mod double;
 mod single;
 
 #[cfg(test)]
